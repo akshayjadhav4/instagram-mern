@@ -12,6 +12,14 @@ var userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  followers: {
+    type: Array,
+    default:[]
+  },
+  following: {
+    type: Array,
+    default:[]
+  },
   username: {
     type: String,
     trim: true,
