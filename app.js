@@ -6,7 +6,10 @@ mongoose.connect("mongodb://localhost:27017/instagram", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
-});
+}).then(()=>{
+    console.log("DB CONNECTED");
+    
+})
 
 const port = 2004
 
