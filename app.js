@@ -1,8 +1,9 @@
+require("dotenv").config()
 const mongoose = require("mongoose");
 const express = require("express");
 const app = express()
 
-mongoose.connect("mongodb://localhost:27017/instagram", {
+mongoose.connect(process.env.DATABASE, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
@@ -11,7 +12,7 @@ mongoose.connect("mongodb://localhost:27017/instagram", {
     
 })
 
-const port = 2004
+const port = process.env.PORT
 
 app.listen(port,()=>{
     console.log(`Server running at ${port}`);
