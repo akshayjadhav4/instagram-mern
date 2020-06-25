@@ -61,6 +61,11 @@ userSchema
 
 //schema methods
 userSchema.method = {
+
+    authenticate:function(plainPassword){
+        return this.securePassword(plainPassword) === this.password
+    },
+
   securePassword: function (plainPassword) {
     if (!password) {
       return "";
