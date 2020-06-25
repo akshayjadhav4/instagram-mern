@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const crypto = require("crypto");
-const uuidv1 = require('uuid/v1')
+const uuidv1 = require("uuid/v1");
 var userSchema = new mongoose.Schema({
   fullname: {
     type: String,
@@ -46,6 +46,18 @@ var userSchema = new mongoose.Schema({
     default: [],
   },
 });
+
+//virtuals
+userSchema
+  .virtual("password")
+  .set(function (password) {
+    this._password = password;
+    this.salt = uuidv1();
+    this.password = this.securePassword(password);
+  })
+  .get(function () {
+    return this._password;
+  });
 
 //schema methods
 userSchema.method = {
