@@ -67,7 +67,7 @@ userSchema.methods = {
     },
 
   securePassword: function (plainPassword) {
-    if (!password) {
+    if (!plainPassword) {
       return "";
     }
     try {
