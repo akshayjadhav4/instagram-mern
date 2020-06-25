@@ -33,7 +33,7 @@ var userSchema = new mongoose.Schema({
   // TODO: password
   password: {
     type: String,
-    trim: true,
+    required: true,
   },
   salt: String,
   role: {
