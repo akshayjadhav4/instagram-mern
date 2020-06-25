@@ -5,7 +5,7 @@ exports.signup = (req ,res)=>{
     user.save((error , user)=>{
         if (error) {
             return res.status(400).json({
-                error : error
+                error : "Not able to create account "
             })
         }
         res.json(user)
