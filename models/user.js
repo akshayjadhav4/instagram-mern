@@ -60,7 +60,7 @@ userSchema
   });
 
 //schema methods
-userSchema.method = {
+userSchema.methods = {
 
     authenticate:function(plainPassword){
         return this.securePassword(plainPassword) === this.password
