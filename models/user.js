@@ -32,7 +32,7 @@ var userSchema = new mongoose.Schema({
     trim: true,
   },
   // TODO: password
-  password: {
+  encry_password: {
     type: String,
     required: true,
   },
@@ -50,12 +50,12 @@ var userSchema = new mongoose.Schema({
 //virtuals
 userSchema
   .virtual("password")
-  .set(function (password) {
+  .set(function(password) {
     this._password = password;
     this.salt = uuidv1();
-    this.password = this.securePassword(password);
+    this.encry_password = this.securePassword(password);
   })
-  .get(function () {
+  .get(function() {
     return this._password;
   });
 
