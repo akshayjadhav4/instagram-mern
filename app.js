@@ -19,6 +19,9 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
 
+//Routes
+app.use("/api",authRoutes)
+
 const port = process.env.PORT
 
 app.listen(port,()=>{
