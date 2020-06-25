@@ -14,11 +14,11 @@ var userSchema = new mongoose.Schema({
   },
   followers: {
     type: Array,
-    default:[]
+    default: [],
   },
   following: {
     type: Array,
-    default:[]
+    default: [],
   },
   username: {
     type: String,
@@ -46,4 +46,21 @@ var userSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("User",userSchema)
+//schema methods
+userSchema.method = {
+  securePassword: function (plainPassword) {
+    if (!password) {
+      return "";
+    }
+    try {
+      return crypto
+        .createHmac("sha256", this.salt)
+        .update(plainPassword)
+        .digest("hex");
+    } catch (error) {
+      return "";
+    }
+  },
+};
+
+module.exports = mongoose.model("User", userSchema);
