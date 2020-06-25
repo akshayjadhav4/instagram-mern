@@ -18,7 +18,7 @@ const commentsSchema = new mongoose.Schema({
     type: ObjectId,
     ref: "Post",
   },
-});
+},{ timestamps: true });
 
 
 module.exports = mongoose.model("Comment", commentsSchema);
