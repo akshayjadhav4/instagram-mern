@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { getUserById, getUser, getAllUsers } = require("../controllers/user");
+const { getUserById, getUser, getAllUsers ,updateUser} = require("../controllers/user");
 const {
   isSignedIn,
   isAuthenticated,
@@ -18,6 +18,13 @@ router.get(
   isAuthenticated,
   isAdmin,
   getAllUsers
+);
+
+router.put(
+  "/user/updateProfile/:userId",
+  isSignedIn,
+  isAuthenticated,
+  updateUser
 );
 
 module.exports = router;
