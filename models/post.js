@@ -24,7 +24,6 @@ const postSchema = new mongoose.Schema({
     default: [],
   },
   photo: {
-    required:true,
     data: Buffer,
     contentType: String,
   },
