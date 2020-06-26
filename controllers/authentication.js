@@ -66,3 +66,12 @@ exports.signout = (req,res)=>{
     message : "User signout successfully"
   })
 }
+
+
+
+//Protected Routes
+
+exports.isSignedIn = expressJwt({
+  secret: process.env.SECRET,
+  userProperty : "auth"
+})
