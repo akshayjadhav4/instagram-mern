@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const Post = require("../models/post");
 
 exports.getUserById = (req, res, next, id) => {
   User.findById(id).exec((error, user) => {
@@ -47,3 +48,17 @@ exports.updateUser = (req, res) => {
     }
   );
 };
+
+
+exports.userPosts = (req, res)=>{
+    Post.find({user:req.profile._id})
+    .populate("author","_id fullname") //pass field name and which fileds want to get
+    .exec((error , posts)=>{
+        if (error) {
+            return res.status(400).json({
+                error : "No post found"
+            })
+        }
+        return res.json(posts)
+    })
+}

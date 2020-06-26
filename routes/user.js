@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { getUserById, getUser, getAllUsers ,updateUser} = require("../controllers/user");
+const { getUserById, getUser, getAllUsers ,updateUser,userPosts} = require("../controllers/user");
 const {
   isSignedIn,
   isAuthenticated,
@@ -26,5 +26,13 @@ router.put(
   isAuthenticated,
   updateUser
 );
+
+router.get(
+    "/user/posts/:userId",
+    isSignedIn,
+    isAuthenticated,
+    userPosts
+  );
+  
 
 module.exports = router;
