@@ -16,6 +16,7 @@ router.get(
   "/user/getAllUsers/:userId",
   isSignedIn,
   isAuthenticated,
+  isAdmin,
   getAllUsers
 );
 
