@@ -63,7 +63,7 @@ userSchema
 userSchema.methods = {
 
     authenticate:function(plainPassword){
-        return this.securePassword(plainPassword) === this.password
+        return this.securePassword(plainPassword) === this.encry_password
     },
 
   securePassword: function (plainPassword) {
