@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const crypto = require("crypto");
 const uuidv1 = require("uuid/v1");
+const { ObjectId } = mongoose.Schema;
 var userSchema = new mongoose.Schema({
   fullname: {
     type: String,
@@ -41,10 +42,12 @@ var userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  userPosts: {
-    type: Array,
-    default: [],
-  },
+  userPosts: [
+    {
+      type: ObjectId,
+      ref: 'Post'
+    }
+  ]
 });
 
 //virtuals
