@@ -5,7 +5,7 @@ exports.getUserById = (req, res, next, id) => {
   User.findById(id).exec((error, user) => {
     if (error || !user) {
       return res.status(400).json({
-        error: "No user found",
+        error: `No user found  ${error}`,
       });
     }
     req.profile = user;
@@ -51,7 +51,7 @@ exports.updateUser = (req, res) => {
 
 
 exports.userPosts = (req, res)=>{
-    Post.find({user:req.profile._id})
+    Post.find({author:req.profile._id})
     .populate("author","_id fullname") //pass field name and which fileds want to get
     .exec((error , posts)=>{
         if (error) {
@@ -62,3 +62,4 @@ exports.userPosts = (req, res)=>{
         return res.json(posts)
     })
 }
+
