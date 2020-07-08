@@ -19,8 +19,8 @@ exports.getUser = (req, res) => {
   return res.json(req.profile);
 };
 
-exports.getAllUsers = (req, res) => {
-  User.find({}, { encry_password: 0, salt: 0 }).exec((error, users) => {
+exports.getAllUsers = (req, res) => { // geting all user except specified id $ne
+  User.find({_id: {$ne:req.profile._id }}, { encry_password: 0, salt: 0 }).exec((error, users) => {
     if (error || !users) {
       return res.status(400).json({
         error: "No users found",
