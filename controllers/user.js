@@ -100,3 +100,18 @@ exports.follow = (req, res, followingId) => {
     }
   );
 };
+
+
+
+exports.followingList = (req, res) => {
+  User.findById({_id:req.profile._id}, { following: 1 })
+    .populate("following", "fullname  username")
+    .exec((error, followingUsers) => {
+      if (error) {
+        return res.status(400).json({
+          error: "No users found",
+        });
+      }
+      return res.json(followingUsers);
+    });
+};
