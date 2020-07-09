@@ -19,8 +19,12 @@ exports.getUser = (req, res) => {
   return res.json(req.profile);
 };
 
-exports.getAllUsers = (req, res) => { // geting all user except specified id $ne
-  User.find({_id: {$ne:req.profile._id }}, { encry_password: 0, salt: 0 }).exec((error, users) => {
+exports.getAllUsersForSuggestion = (req, res) => { // geting all user except specified id $ne
+  
+  User.find(
+    {$and : [{_id:{$ne:req.profile._id}},{_id:{$nin : req.profile.following}}]},
+    { encry_password: 0, salt: 0 }
+  ).exec((error, users) => {
     if (error || !users) {
       return res.status(400).json({
         error: "No users found",
@@ -63,3 +67,36 @@ exports.userPosts = (req, res)=>{
     })
 }
 
+
+
+
+exports.follow = (req, res, followingId) => {
+  // console.log(req.profile.fullname);
+  // console.log(req.body.followingId);
+  User.findByIdAndUpdate(
+    { _id: req.profile._id },
+    { $push: { following: req.body.followingId } },
+    { new: true },
+    (error, followUser) => {
+      if (error) {
+        return res.status(400).json({
+          error: "User following opration failed",
+        });
+      }
+      User.findByIdAndUpdate(
+        { _id: req.body.followingId },
+        { $push: { followers: req.profile._id } },
+        { new: true },
+        (error, result) => {
+          if (error) {
+            return res.status(400).json({
+              error: "User follower opration failed",
+            });
+          }
+
+        }
+      );
+      res.json(followUser);
+    }
+  );
+};
