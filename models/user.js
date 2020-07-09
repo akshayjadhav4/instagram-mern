@@ -14,14 +14,19 @@ var userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  followers: {
-    type: Array,
-    default: [],
-  },
-  following: {
-    type: Array,
-    default: [],
-  },
+  followers:[
+    {
+      type: ObjectId,
+      ref: 'User'
+    }
+  ],
+  following: [
+    {
+      type: ObjectId,
+      ref: 'User'
+    }
+  ]
+,
   username: {
     type: String,
     trim: true,
