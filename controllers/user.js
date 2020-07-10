@@ -145,3 +145,20 @@ exports.unfollow = (req, res, unFollowingId) => {
     }
   );
 };
+
+
+
+exports.getAllPostsOfFollowing = (req, res) => {
+  
+  Post.find(
+    {author:req.profile.following},
+    {photo : 0}
+  ).exec((error, posts) => {
+    if (error || !posts) {
+      return res.status(400).json({
+        error: "No posts found",
+      });
+    }
+    return res.json(posts);
+  });
+};

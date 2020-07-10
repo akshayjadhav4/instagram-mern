@@ -9,7 +9,8 @@ const {
   userPosts,
   follow,
   followingList,
-  unfollow
+  unfollow,
+  getAllPostsOfFollowing
 } = require("../controllers/user");
 const {
   isSignedIn,
@@ -46,6 +47,10 @@ router.put("/user/follow/:userId",isSignedIn,follow)
 router.get("/user/followingList/:userId",isSignedIn,followingList)
 router.put("/user/unfollow/:userId",isSignedIn,unfollow)
 
-
+router.get(
+  "/user/getAllPostsOfFollowing/:userId",
+  isSignedIn,
+  getAllPostsOfFollowing
+);
 
 module.exports = router;
