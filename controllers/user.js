@@ -115,3 +115,33 @@ exports.followingList = (req, res) => {
       return res.json(followingUsers);
     });    
 };
+
+
+exports.unfollow = (req, res, unFollowingId) => {
+  User.findByIdAndUpdate(
+    { _id: req.profile._id },
+    { $pull: { following: req.body.unFollowingId } },
+    { new: true },
+    (error, unFollowUser) => {
+      if (error) {
+        return res.status(400).json({
+          error: "User unfollowing opration failed",
+        });
+      }
+      User.findByIdAndUpdate(
+        { _id: req.body.unFollowingId },
+        { $pull: { followers: req.profile._id } },
+        { new: true },
+        (error, result) => {
+          if (error) {
+            return res.status(400).json({
+              error: "User unfollower opration failed",
+            });
+          }
+
+        }
+      );
+      res.json(unFollowUser);
+    }
+  );
+};
