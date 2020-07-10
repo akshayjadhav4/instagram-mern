@@ -104,7 +104,7 @@ exports.follow = (req, res, followingId) => {
 
 
 exports.followingList = (req, res) => {
-  User.findById({_id:req.profile._id}, { following: 1 })
+  User.find({_id:req.profile._id},{following:1})
     .populate("following", "fullname  username")
     .exec((error, followingUsers) => {
       if (error) {
@@ -113,5 +113,5 @@ exports.followingList = (req, res) => {
         });
       }
       return res.json(followingUsers);
-    });
+    });    
 };
