@@ -15,7 +15,9 @@ const {
   photo,
   deletePost,
   updatePost,
-  userPostsForExplore
+  userPostsForExplore,
+  likePost,
+  unlikePost
 } = require("../controllers/post");
 
 router.param("userId", getUserById);
@@ -52,5 +54,8 @@ router.get(
   userPostsForExplore
 );
 
+router.put("/post/like/:postId/:userId", isSignedIn, likePost);
+
+router.put("/post/unlike/:postId/:userId", isSignedIn, unlikePost);
 
 module.exports = router;

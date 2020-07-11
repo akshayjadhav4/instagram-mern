@@ -152,3 +152,35 @@ exports.userPostsForExplore = (req, res)=>{
       return res.json(posts)
   })
 }
+
+
+exports.likePost = (req, res) => {
+  Post.findByIdAndUpdate(
+    { _id: req.body.postId },
+    { $push: { likes: req.profile._id } },
+    { new: true }
+  ).exec((error, result) => {
+    if (error) {
+      return res.status(400).json({
+        error: `Probleam in liking Post ${error}`,
+      });
+    }
+    return res.json(result);
+  });
+};
+
+exports.unlikePost = (req, res) => {
+  Post.findByIdAndUpdate(
+    { _id: req.body.postId },
+    { $pull: { likes: req.profile._id } },
+    { new: true }
+  ).exec((error, result) => {
+    if (error) {
+      return res.status(400).json({
+        error: "Probleam in unliking Post",
+      });
+    }
+
+    return res.json(result);
+  });
+};
