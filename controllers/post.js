@@ -159,7 +159,7 @@ exports.likePost = (req, res) => {
     { _id: req.body.postId },
     { $push: { likes: req.profile._id } },
     { new: true }
-  ).exec((error, result) => {
+  ).populate("author", "fullname  username").exec((error, result) => {
     if (error) {
       return res.status(400).json({
         error: `Probleam in liking Post ${error}`,
@@ -174,7 +174,7 @@ exports.unlikePost = (req, res) => {
     { _id: req.body.postId },
     { $pull: { likes: req.profile._id } },
     { new: true }
-  ).exec((error, result) => {
+  ).populate("author", "fullname  username").exec((error, result) => {
     if (error) {
       return res.status(400).json({
         error: "Probleam in unliking Post",
