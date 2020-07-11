@@ -11,10 +11,12 @@ const postSchema = new mongoose.Schema({
     trim: true,
     maxlength: 25,
   },
-  likes: {
-    type: Number,
-    default: 0,
-  },
+  likes: [
+    {
+      type: ObjectId,
+      ref: 'User'
+    }
+  ],
   author: {
     type: ObjectId,
     ref: "User",
