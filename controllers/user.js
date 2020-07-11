@@ -153,7 +153,9 @@ exports.getAllPostsOfFollowing = (req, res) => {
   Post.find(
     {author:req.profile.following},
     {photo : 0}
-  ).exec((error, posts) => {
+  )
+  .populate("author", "fullname  username")
+  .exec((error, posts) => {
     if (error || !posts) {
       return res.status(400).json({
         error: "No posts found",
