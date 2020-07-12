@@ -22,10 +22,12 @@ const postSchema = new mongoose.Schema({
     ref: "User",
     required : true
   },
-  comments: {
-    type: Array,
-    default: [],
-  },
+  comments:  [
+    {
+      type: ObjectId,
+      ref: 'Comment'
+    }
+  ],
   photo: {
     data: Buffer,
     contentType: String,
