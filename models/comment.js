@@ -6,18 +6,19 @@ const commentsSchema = new mongoose.Schema({
     trim: true,
     maxlength: 200,
   },
-  reply: {
-    type: Array,
-    default: [],
-  },
-  likes: {
-    type: Number,
-    default: 0,
-  },
+  likes: [
+    {
+      type: ObjectId,
+      ref: 'User'
+    }
+  ],
   post: {
     type: ObjectId,
     ref: "Post",
   },
+  postedBy :{
+    type: String
+  }
 },{ timestamps: true });
 
 
