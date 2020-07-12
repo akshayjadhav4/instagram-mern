@@ -143,6 +143,7 @@ exports.updatePost = (req, res) => {
 exports.userPostsForExplore = (req, res)=>{
   Post.find()
   .populate("author","_id fullname") //pass field name and which fileds want to get
+  .populate("comments")
   .exec((error , posts)=>{
       if (error) {
           return res.status(400).json({
@@ -159,7 +160,9 @@ exports.likePost = (req, res) => {
     { _id: req.body.postId },
     { $push: { likes: req.profile._id } },
     { new: true }
-  ).populate("author", "fullname  username").exec((error, result) => {
+  ).populate("author", "fullname  username")
+  .populate("comments")
+  .exec((error, result) => {
     if (error) {
       return res.status(400).json({
         error: `Probleam in liking Post ${error}`,
@@ -174,13 +177,16 @@ exports.unlikePost = (req, res) => {
     { _id: req.body.postId },
     { $pull: { likes: req.profile._id } },
     { new: true }
-  ).populate("author", "fullname  username").exec((error, result) => {
-    if (error) {
-      return res.status(400).json({
-        error: "Probleam in unliking Post",
-      });
-    }
+  )
+    .populate("comments")
+    .populate("author", "fullname  username")
+    .exec((error, result) => {
+      if (error) {
+        return res.status(400).json({
+          error: "Probleam in unliking Post",
+        });
+      }
 
-    return res.json(result);
-  });
+      return res.json(result);
+    });
 };

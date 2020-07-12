@@ -57,6 +57,7 @@ exports.updateUser = (req, res) => {
 exports.userPosts = (req, res)=>{
     Post.find({author:req.profile._id})
     .populate("author","_id fullname") //pass field name and which fileds want to get
+    .populate("comments")
     .exec((error , posts)=>{
         if (error) {
             return res.status(400).json({
@@ -155,6 +156,7 @@ exports.getAllPostsOfFollowing = (req, res) => {
     {photo : 0}
   )
   .populate("author", "fullname  username")
+  .populate("comments")
   .exec((error, posts) => {
     if (error || !posts) {
       return res.status(400).json({
