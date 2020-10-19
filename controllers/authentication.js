@@ -33,8 +33,7 @@ exports.signin = (req, res) => {
   const { email, password } = req.body;
   if (!errors.isEmpty()) {
     return res.status(422).json({
-      error: errors.array()[0].msg,
-      param: errors.array()[0].param,
+      error: errors.array()[0].param + " " + errors.array()[0].msg,
     });
   }
 
