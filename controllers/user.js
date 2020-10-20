@@ -19,10 +19,16 @@ exports.getUser = (req, res) => {
   return res.json(req.profile);
 };
 
-exports.getAllUsersForSuggestion = (req, res) => { // geting all user except specified id $ne
-  
+exports.getAllUsersForSuggestion = (req, res) => {
+  // geting all user except specified id $ne
+
   User.find(
-    {$and : [{_id:{$ne:req.profile._id}},{_id:{$nin : req.profile.following}}]},
+    {
+      $and: [
+        { _id: { $ne: req.profile._id } },
+        { _id: { $nin: req.profile.following } },
+      ],
+    },
     { encry_password: 0, salt: 0 }
   ).exec((error, users) => {
     if (error || !users) {
@@ -53,23 +59,20 @@ exports.updateUser = (req, res) => {
   );
 };
 
-
-exports.userPosts = (req, res)=>{
-    Post.find({author:req.profile._id})
-    .populate("author","_id fullname") //pass field name and which fileds want to get
+exports.userPosts = (req, res) => {
+  Post.find({ author: req.profile._id })
+    .select("-photo")
+    .populate("author", "_id fullname") //pass field name and which fileds want to get
     .populate("comments")
-    .exec((error , posts)=>{
-        if (error) {
-            return res.status(400).json({
-                error : "No post found"
-            })
-        }
-        return res.json(posts)
-    })
-}
-
-
-
+    .exec((error, posts) => {
+      if (error) {
+        return res.status(400).json({
+          error: "No post found",
+        });
+      }
+      return res.json(posts);
+    });
+};
 
 exports.follow = (req, res, followingId) => {
   // console.log(req.profile.fullname);
@@ -94,7 +97,6 @@ exports.follow = (req, res, followingId) => {
               error: "User follower opration failed",
             });
           }
-
         }
       );
       res.json(followUser);
@@ -102,10 +104,8 @@ exports.follow = (req, res, followingId) => {
   );
 };
 
-
-
 exports.followingList = (req, res) => {
-  User.find({_id:req.profile._id},{following:1})
+  User.find({ _id: req.profile._id }, { following: 1 })
     .populate("following", "fullname  username")
     .exec((error, followingUsers) => {
       if (error) {
@@ -114,9 +114,8 @@ exports.followingList = (req, res) => {
         });
       }
       return res.json(followingUsers);
-    });    
+    });
 };
-
 
 exports.unfollow = (req, res, unFollowingId) => {
   User.findByIdAndUpdate(
@@ -139,7 +138,6 @@ exports.unfollow = (req, res, unFollowingId) => {
               error: "User unfollower opration failed",
             });
           }
-
         }
       );
       res.json(unFollowUser);
@@ -147,22 +145,16 @@ exports.unfollow = (req, res, unFollowingId) => {
   );
 };
 
-
-
 exports.getAllPostsOfFollowing = (req, res) => {
-  
-  Post.find(
-    {author:req.profile.following},
-    {photo : 0}
-  )
-  .populate("author", "fullname  username")
-  .populate("comments")
-  .exec((error, posts) => {
-    if (error || !posts) {
-      return res.status(400).json({
-        error: "No posts found",
-      });
-    }
-    return res.json(posts);
-  });
+  Post.find({ author: req.profile.following }, { photo: 0 })
+    .populate("author", "fullname  username")
+    .populate("comments")
+    .exec((error, posts) => {
+      if (error || !posts) {
+        return res.status(400).json({
+          error: "No posts found",
+        });
+      }
+      return res.json(posts);
+    });
 };
