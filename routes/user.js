@@ -10,7 +10,8 @@ const {
   follow,
   followingList,
   unfollow,
-  getAllPostsOfFollowing
+  getAllPostsOfFollowing,
+  followersList,
 } = require("../controllers/user");
 const {
   isSignedIn,
@@ -22,11 +23,7 @@ const {
 router.param("userId", getUserById);
 
 router.get("/user/:userId", isSignedIn, isAuthenticated, getUser);
-router.get(
-  "/user/getAllUsers/:userId",
-  isSignedIn,
-  getAllUsersForSuggestion
-);
+router.get("/user/getAllUsers/:userId", isSignedIn, getAllUsersForSuggestion);
 
 router.put(
   "/user/updateProfile/:userId",
@@ -35,17 +32,12 @@ router.put(
   updateUser
 );
 
-router.get(
-    "/user/posts/:userId",
-    isSignedIn,
-    isAuthenticated,
-    userPosts
-  );
-  
+router.get("/user/posts/:userId", isSignedIn, isAuthenticated, userPosts);
 
-router.put("/user/follow/:userId",isSignedIn,follow)
-router.get("/user/followingList/:userId",isSignedIn,followingList)
-router.put("/user/unfollow/:userId",isSignedIn,unfollow)
+router.put("/user/follow/:userId", isSignedIn, follow);
+router.get("/user/followingList/:userId", isSignedIn, followingList);
+router.get("/user/followersList/:userId", isSignedIn, followersList);
+router.put("/user/unfollow/:userId", isSignedIn, unfollow);
 
 router.get(
   "/user/getAllPostsOfFollowing/:userId",

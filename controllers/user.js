@@ -117,6 +117,19 @@ exports.followingList = (req, res) => {
     });
 };
 
+exports.followersList = (req, res) => {
+  User.find({ _id: req.profile._id }, { followers: 1 })
+    .populate("followers", "fullname  username")
+    .exec((error, followersUsers) => {
+      if (error) {
+        return res.status(400).json({
+          error: "No users found",
+        });
+      }
+      return res.json(followersUsers);
+    });
+};
+
 exports.unfollow = (req, res, unFollowingId) => {
   User.findByIdAndUpdate(
     { _id: req.profile._id },
