@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const crypto = require("crypto");
-const uuidv1 = require("uuid/v1");
+const { v1: uuidv1 } = require("uuid");
 const { ObjectId } = mongoose.Schema;
 var userSchema = new mongoose.Schema({
   fullname: {
@@ -14,19 +14,18 @@ var userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  followers:[
+  followers: [
     {
       type: ObjectId,
-      ref: 'User'
-    }
+      ref: "User",
+    },
   ],
   following: [
     {
       type: ObjectId,
-      ref: 'User'
-    }
-  ]
-,
+      ref: "User",
+    },
+  ],
   username: {
     type: String,
     trim: true,
@@ -50,29 +49,28 @@ var userSchema = new mongoose.Schema({
   userPosts: [
     {
       type: ObjectId,
-      ref: 'Post'
-    }
-  ]
+      ref: "Post",
+    },
+  ],
 });
 
 //virtuals
 userSchema
   .virtual("password")
-  .set(function(password) {
+  .set(function (password) {
     this._password = password;
     this.salt = uuidv1();
     this.encry_password = this.securePassword(password);
   })
-  .get(function() {
+  .get(function () {
     return this._password;
   });
 
 //schema methods
 userSchema.methods = {
-
-    authenticate:function(plainPassword){
-        return this.securePassword(plainPassword) === this.encry_password
-    },
+  authenticate: function (plainPassword) {
+    return this.securePassword(plainPassword) === this.encry_password;
+  },
 
   securePassword: function (plainPassword) {
     if (!plainPassword) {
