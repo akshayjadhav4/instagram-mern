@@ -98,7 +98,7 @@ exports.deletePost = (req, res) => {
       }
     );
     return res.json({
-      error: `Post deleted`,
+      message: `Post deleted`,
     });
   });
 };
@@ -139,37 +139,36 @@ exports.updatePost = (req, res) => {
   });
 };
 
-
-exports.userPostsForExplore = (req, res)=>{
+exports.userPostsForExplore = (req, res) => {
   Post.find()
-  .populate("author","_id fullname") //pass field name and which fileds want to get
-  .populate("comments")
-  .exec((error , posts)=>{
+    .populate("author", "_id fullname") //pass field name and which fileds want to get
+    .populate("comments")
+    .exec((error, posts) => {
       if (error) {
-          return res.status(400).json({
-              error : "No posts found"
-          })
+        return res.status(400).json({
+          error: "No posts found",
+        });
       }
-      return res.json(posts)
-  })
-}
-
+      return res.json(posts);
+    });
+};
 
 exports.likePost = (req, res) => {
   Post.findByIdAndUpdate(
     { _id: req.body.postId },
     { $push: { likes: req.profile._id } },
     { new: true }
-  ).populate("author", "fullname  username")
-  .populate("comments")
-  .exec((error, result) => {
-    if (error) {
-      return res.status(400).json({
-        error: `Probleam in liking Post ${error}`,
-      });
-    }
-    return res.json(result);
-  });
+  )
+    .populate("author", "fullname  username")
+    .populate("comments")
+    .exec((error, result) => {
+      if (error) {
+        return res.status(400).json({
+          error: `Probleam in liking Post ${error}`,
+        });
+      }
+      return res.json(result);
+    });
 };
 
 exports.unlikePost = (req, res) => {
