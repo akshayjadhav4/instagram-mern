@@ -61,9 +61,8 @@ mongoose
           // Save the message to the database.
           message.save((err, msg) => {
             if (err) return console.error(err);
+            socket.emit("push", msg);
           });
-
-          socket.emit("push", messageInput);
         }
       });
 
