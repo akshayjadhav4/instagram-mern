@@ -47,6 +47,18 @@ mongoose
           });
       });
 
+      // realtime sync
+      const db = mongoose.connection;
+      const messageCollection = db.collection("messages");
+      const changeStream = messageCollection.watch();
+      changeStream.on("change", (change) => {
+        console.log(change);
+        if (change.operationType === "insert") {
+          const messageDetails = change.fullDocument;
+          socket.emit("insert", messageDetails);
+        }
+      });
+
       //Listen to connected users for a new message.
       socket.on("message", function (messageInput) {
         // Create a message with the content and the name of the user.
@@ -62,7 +74,6 @@ mongoose
           // Save the message to the database.
           message.save((err, msg) => {
             if (err) return console.error(err);
-            socket.emit("push", msg);
           });
         }
       });
