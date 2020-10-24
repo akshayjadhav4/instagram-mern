@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ path: "./.env" });
 const mongoose = require("mongoose");
 const express = require("express");
 const client = require("socket.io").listen(1204).sockets; //running socket.io
