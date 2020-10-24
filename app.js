@@ -1,8 +1,9 @@
 require("dotenv").config({ path: "./.env" });
 const mongoose = require("mongoose");
 const express = require("express");
-const client = require("socket.io").listen(1204).sockets; //running socket.io
 const app = express();
+const server = require("http").Server(app);
+const client = require("socket.io").listen(server).sockets; //running socket.io
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -88,6 +89,6 @@ app.use("/api", commentRoutes);
 
 const port = process.env.PORT;
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server running at ${port}`);
 });
