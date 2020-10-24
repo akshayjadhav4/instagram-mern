@@ -61,6 +61,7 @@ exports.updateUser = (req, res) => {
 
 exports.userPosts = (req, res) => {
   Post.find({ author: req.profile._id })
+    .sort({ createdAt: -1 })
     .select("-photo")
     .populate("author", "_id fullname") //pass field name and which fileds want to get
     .populate("comments")
@@ -160,6 +161,7 @@ exports.unfollow = (req, res, unFollowingId) => {
 
 exports.getAllPostsOfFollowing = (req, res) => {
   Post.find({ author: req.profile.following }, { photo: 0 })
+    .sort({ createdAt: -1 })
     .populate("author", "fullname  username")
     .populate("comments")
     .exec((error, posts) => {

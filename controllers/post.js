@@ -141,6 +141,7 @@ exports.updatePost = (req, res) => {
 
 exports.userPostsForExplore = (req, res) => {
   Post.find()
+    .sort({ createdAt: -1 })
     .populate("author", "_id fullname") //pass field name and which fileds want to get
     .populate("comments")
     .exec((error, posts) => {
