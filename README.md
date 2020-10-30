@@ -1,2 +1,2 @@
-## FrontEnd React
-[FrontEnd GitHub Repo](https://github.com/akshayjadhav4/instagram-mern)
+## FrontEnd for instagram clone (MERN)
+[Frontend GitHub Repo](https://github.com/akshayjadhav4/instagram-frontend-mern)
